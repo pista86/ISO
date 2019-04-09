@@ -2,15 +2,11 @@
 
 #include "main.h"
 #include "sapi.h"
-#include "pista_OS.h"
-
-#include <string.h>
+#include "pistaOS.h"
 
 /*==================[macros and definitions]=================================*/
 
 #define STACK_SIZE_B 512
-
-
 
 /*==================[internal data declaration]==============================*/
 
@@ -20,6 +16,7 @@
  *	@return none
  */
 static void initHardware(void);
+static void inicializarTareas(void);
 
 /*==================[internal data definition]===============================*/
 
@@ -28,48 +25,44 @@ static void initHardware(void);
 uint32_t stack1[STACK_SIZE_B / 4];
 uint32_t stack2[STACK_SIZE_B / 4];
 
-
+pistaOS_task_t task1;
+pistaOS_task_t task2;
 
 /*==================[internal functions definition]==========================*/
 
 static void initHardware(void) {
+	Board_Init();
 	boardConfig();
 	SystemCoreClockUpdate();
 	SysTick_Config(SystemCoreClock / 1000);
-	pista_OS_init();
 }
-
-
 
 /*==================[external functions definition]==========================*/
 
-void * task1(void * arg) {
+void * taskMain1(void * arg) {
 
-	uint32_t i = 0;
-
+	gpioToggle(LED1);
 	while (1) {
 		__WFI();
-		if (i == 100) {
-			gpioToggle(LED1);
-			i = 0;
-		}
-		i++;
+
+		gpioToggle(LED1);
+
+		taskDelay(500);
 	}
 
 	return NULL;
 }
 
-void * task2(void * arg) {
+void * taskMain2(void * arg) {
 
-	uint32_t i = 0;
-
+	gpioToggle(LED2);
 	while (1) {
 		__WFI();
-		if (i == 500) {
-			gpioToggle(LED2);
-			i = 0;
-		}
-		i++;
+
+		gpioToggle(LED2);
+
+		taskDelay(4000);
+
 	}
 
 	return NULL;
@@ -81,19 +74,40 @@ void task_return_hook(void * ret_val) {
 	}
 }
 
-
 int main(void) {
 
-	init_stack(stack1, STACK_SIZE_B, &sp1, task1, 0);
-	init_stack(stack2, STACK_SIZE_B, &sp2, task2, 0);
-
+	// inicialización del hardware
 	initHardware();
 
-	Board_LED_Toggle(LEDS_LED4);
+	OSInit();
+
+	// Inicialización de tareas
+	inicializarTareas();
 
 	while (1) {
 		__WFI();
 	}
+}
+
+static void inicializarTareas(void) {
+
+	// Seteo de valores de configuración iniciail para task1
+	task1.arg = 0;
+	task1.priority = 5;
+	task1.entry_point = taskMain1;
+	task1.stack_size_bytes = STACK_SIZE_B;
+	task1.stack = stack1;
+
+	// Seteo de valores de configuración iniciail para task2
+	task2.arg = 0;
+	task2.priority = 3;
+	task2.entry_point = taskMain2;
+	task2.stack_size_bytes = STACK_SIZE_B;
+	task2.stack = stack2;
+
+	// Inicialización de tareas
+	taskInit(task1, 0);
+	taskInit(task2, 1);
 }
 
 /** @} doxygen end group definition */

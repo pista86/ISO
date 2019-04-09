@@ -37,13 +37,22 @@ PROJECT_MODULES := modules/$(TARGET)/base \
                    modules/$(TARGET)/board \
                    modules/$(TARGET)/sapi_rtos \
                    modules/$(TARGET)/chip
+#                   pistaOS
 
 # source files folder
 PROJECT_SRC_FOLDERS := $(PROJECT)/src
+#PROJECT_SRC_FOLDERS += $(PROJECT)/pistaOS/src
 
 # header files folder
 PROJECT_INC_FOLDERS := $(PROJECT)/inc
+#PROJECT_INC_FOLDERS += $(PROJECT)/pistaOS/inc
 
 # source files
 PROJECT_C_FILES := $(wildcard $(PROJECT)/src/*.c)
+#PROJECT_C_FILES += $(wildcard $(PROJECT)/TP/src/*.c)
 PROJECT_ASM_FILES := $(wildcard $(PROJECT)/src/*.S)
+#PROJECT_ASM_FILES += $(wildcard $(PROJECT)/pistaOS/src/*.S)
+
+
+
+
