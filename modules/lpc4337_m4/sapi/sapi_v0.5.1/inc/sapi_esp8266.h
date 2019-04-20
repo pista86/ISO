@@ -1,7 +1,8 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2016, Marcelo Vieytes.
+ * Copyright 2017, Pablo Gomez, Agustin Bassi.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,13 +32,14 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/* Date: 2017-14-11 */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef _SAPI_ESP8266_
+#define _SAPI_ESP8266_
 
 /*==================[inclusions]=============================================*/
+
+#include "sapi.h"
 
 /*==================[cplusplus]==============================================*/
 
@@ -47,14 +49,7 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
-
-
-
-
-/** led number to toggle */
-#define LED 0
+#define esp8266ConfigHttpServer esp8266InitHttpServer
 
 /*==================[typedef]================================================*/
 
@@ -62,13 +57,16 @@ extern "C" {
 
 /*==================[external functions declaration]=========================*/
 
-/** @brief main function
- * @return main function should never return
- */
-int main(void);
+bool_t esp8266InitHttpServer( char * wifiName, char * wifiPass, uartMap_t debugUart, uint32_t debugBaudRate );
+bool_t esp8266ReadHttpServer();
+bool_t esp8266WriteHttpServer( const char * webHttpHeader, char * webHttpBody, const char * webHttpEnd );
 
+char* esp8266GetIpAddress();
+char* esp8266GetWifiName();
+char* esp8266GetWifiPass();
+uint8_t esp8266GetConnectionId();
 
-
+void uart232Callback(void);
 
 /*==================[cplusplus]==============================================*/
 
@@ -76,6 +74,5 @@ int main(void);
 }
 #endif
 
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* #ifndef _SAPI_ESP8266_ */

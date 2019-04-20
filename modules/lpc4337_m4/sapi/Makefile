@@ -1,4 +1,5 @@
 # Copyright 2016, Pablo Ridolfi
+# Copyright 2016, Eric Pernia
 # All rights reserved.
 #
 # This file is part of Workspace.
@@ -29,31 +30,14 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# application name
-PROJECT_NAME := $(notdir $(PROJECT))
+sapi_PATH := modules/lpc4337_m4/sapi/sapi_v0.5.1
 
+sapi_SRC_FILES += $(wildcard $(sapi_PATH)/src/*.c)
 
-# Modules needed by the application
-PROJECT_MODULES := modules/$(TARGET)/base \
-                   modules/$(TARGET)/board \
-                   modules/$(TARGET)/sapi \
-                   modules/$(TARGET)/chip
-#                   pistaOS
+sapi_SRC_FOLDERS += modules/lpc4337_m4/sapi/sapi_v0.5.1/src
 
-# source files folder
-PROJECT_SRC_FOLDERS := $(PROJECT)/src
-#PROJECT_SRC_FOLDERS += $(PROJECT)/pistaOS/src
+sapi_INC_FOLDERS += modules/lpc4337_m4/sapi/sapi_v0.5.1/inc
 
-# header files folder
-PROJECT_INC_FOLDERS := $(PROJECT)/inc
-#PROJECT_INC_FOLDERS += $(PROJECT)/pistaOS/inc
+DEFINES+=USE_SAPI
 
-# source files
-PROJECT_C_FILES := $(wildcard $(PROJECT)/src/*.c)
-#PROJECT_C_FILES += $(wildcard $(PROJECT)/TP/src/*.c)
-PROJECT_ASM_FILES := $(wildcard $(PROJECT)/src/*.S)
-#PROJECT_ASM_FILES += $(wildcard $(PROJECT)/pistaOS/src/*.S)
-
-
-
-
+DEFINES+=TICK_OVER_RTOS

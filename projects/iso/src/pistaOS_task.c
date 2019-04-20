@@ -14,7 +14,7 @@ void initTasks(void)
 
 	for (int i = 0; i < PISTAOS_MAX_TASK; i++)
 	{
-		taskList[i].status = SUSPENDED;
+		taskList[i].status = TASK_SUSPENDED;
 	}
 
 }

@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2017, Danilo Zecchin.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,14 +31,16 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/*
+ * Ultrasonic sensor HC-SR04 API
+ * Date: 2017-11-17
+ */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef _SAPI_ULTRASONICSENSOR_H_
+#define _SAPI_ULTRASONICSENSOR_H_
 
 /*==================[inclusions]=============================================*/
-
+#include "sapi_datatypes.h"
 /*==================[cplusplus]==============================================*/
 
 #ifdef __cplusplus
@@ -47,28 +49,49 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
-
-
-
-
-/** led number to toggle */
-#define LED 0
+#define ultrasonicSensorConfig ultrasonicSensorInit
 
 /*==================[typedef]================================================*/
+
+typedef enum {
+	ULTRASONIC_SENSOR_0, ULTRASONIC_SENSOR_1, ULTRASONIC_SENSOR_2
+} ultrasonicSensorMap_t;
+
+typedef enum {
+	ULTRASONIC_SENSOR_ENABLE, ULTRASONIC_SENSOR_DISABLE
+} ultrasonicSensorInit_t;
+
+typedef enum {
+	CM, INCH
+} unitMap_t;
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
-/** @brief main function
- * @return main function should never return
+/*
+ * @Brief   Configure an ultrasonic sensor
+ * @param   aSensor:   sensor number (0 to 2)
+ * @param   aConfig:   enable or disable sensor
+ * @return   nothing
  */
-int main(void);
+void ultrasonicSensorInit( ultrasonicSensorMap_t aSensor, ultrasonicSensorInit_t aConfig );
 
+/*
+ * @Brief   retrieves sensor actual distance in the specified unit
+ * @param   aSensor:	sensor number (0 to 2)
+ * @param   anUnit:		returned value unit (centimeters, inch, etc)
+ * @return  float value with measured distance
+ */
+float ultrasonicSensorGetDistance( ultrasonicSensorMap_t aSensor, unitMap_t anUnit );
 
-
+/*==================[ISR external functions declaration]=====================*/
+/*
+ * @Brief:   GPIO Echo interrupt handler for each sensor
+ */
+void GPIO0_IRQHandler(void);
+void GPIO1_IRQHandler(void);
+void GPIO2_IRQHandler(void);
 
 /*==================[cplusplus]==============================================*/
 
@@ -76,6 +99,4 @@ int main(void);
 }
 #endif
 
-/** @} doxygen end group definition */
-/*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* _SAPI_ULTRASONICSENSOR_H_ */

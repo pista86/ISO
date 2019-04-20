@@ -3,10 +3,14 @@
 #include "main.h"
 #include "sapi.h"
 #include "pistaOS.h"
+#include "task_debounce.h"
+#include "task_uart.h"
+#include "task2.h"
 
 /*==================[macros and definitions]=================================*/
 
 #define STACK_SIZE_B 512
+
 
 /*==================[internal data declaration]==============================*/
 
@@ -22,11 +26,13 @@ static void inicializarTareas(void);
 
 /*==================[external data definition]===============================*/
 
-uint32_t stack1[STACK_SIZE_B / 4];
-uint32_t stack2[STACK_SIZE_B / 4];
+uint32_t stackDebounce[STACK_SIZE_B / 4];
+uint32_t stackUART[STACK_SIZE_B / 4];
+uint32_t stack3[STACK_SIZE_B / 4];
 
-pistaOS_task_t task1;
-pistaOS_task_t task2;
+pistaOS_task_t taskDebounce;
+pistaOS_task_t taskUART;
+pistaOS_task_t task3;
 
 /*==================[internal functions definition]==========================*/
 
@@ -39,34 +45,7 @@ static void initHardware(void) {
 
 /*==================[external functions definition]==========================*/
 
-void * taskMain1(void * arg) {
 
-	gpioToggle(LED1);
-	while (1) {
-		__WFI();
-
-		gpioToggle(LED1);
-
-		taskDelay(500);
-	}
-
-	return NULL;
-}
-
-void * taskMain2(void * arg) {
-
-	gpioToggle(LED2);
-	while (1) {
-		__WFI();
-
-		gpioToggle(LED2);
-
-		taskDelay(4000);
-
-	}
-
-	return NULL;
-}
 
 void task_return_hook(void * ret_val) {
 	while (1) {
@@ -79,6 +58,7 @@ int main(void) {
 	// inicialización del hardware
 	initHardware();
 
+
 	OSInit();
 
 	// Inicialización de tareas
@@ -89,25 +69,36 @@ int main(void) {
 	}
 }
 
+
+
+
 static void inicializarTareas(void) {
 
-	// Seteo de valores de configuración iniciail para task1
-	task1.arg = 0;
-	task1.priority = 5;
-	task1.entry_point = taskMain1;
-	task1.stack_size_bytes = STACK_SIZE_B;
-	task1.stack = stack1;
+	// Seteo de valores de configuración iniciail para task_debounce
+	taskDebounce.arg = 0;
+	taskDebounce.priority = 5;
+	taskDebounce.entry_point = task_debounce;
+	taskDebounce.stack_size_bytes = STACK_SIZE_B;
+	taskDebounce.stack = stackDebounce;
+
+	// Seteo de valores de configuración iniciail para task_debounce
+	taskUART.arg = 0;
+	taskUART.priority = 4;
+	taskUART.entry_point = uart_task;
+	taskUART.stack_size_bytes = STACK_SIZE_B;
+	taskUART.stack = stackUART;
 
 	// Seteo de valores de configuración iniciail para task2
-	task2.arg = 0;
-	task2.priority = 3;
-	task2.entry_point = taskMain2;
-	task2.stack_size_bytes = STACK_SIZE_B;
-	task2.stack = stack2;
+	task3.arg = 0;
+	task3.priority = 3;
+	task3.entry_point = taskMain2;
+	task3.stack_size_bytes = STACK_SIZE_B;
+	task3.stack = stack3;
 
 	// Inicialización de tareas
-	taskInit(task1, 0);
-	taskInit(task2, 1);
+	taskInit(taskDebounce, 0);
+	taskInit(taskUART, 1);
+	taskInit(task3, 2);
 }
 
 /** @} doxygen end group definition */

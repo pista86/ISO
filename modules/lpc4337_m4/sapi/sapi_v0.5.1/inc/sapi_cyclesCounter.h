@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2017, Agustin Bassi.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,13 +31,17 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/* Date: 2017-30-10 */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+// More information at:
+// https://groups.google.com/forum/#!msg/embebidos32/tPntHHUSnyE/S3CDyCwXsaMJ
+
+#ifndef _SAPI_CYCLES_COUNTER_H_
+#define _SAPI_CYCLES_COUNTER_H_
 
 /*==================[inclusions]=============================================*/
+
+#include "sapi_datatypes.h"
 
 /*==================[cplusplus]==============================================*/
 
@@ -47,28 +51,28 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
+// TODO: Check CPU core speed using SystemCoreClock
+#define EDU_CIAA_NXP_CLOCK_SPEED	204000000
 
-
-
-
-/** led number to toggle */
-#define LED 0
+#define cyclesCounterConfig cyclesCounterInit
 
 /*==================[typedef]================================================*/
 
 /*==================[external data declaration]==============================*/
 
-/*==================[external functions declaration]=========================*/
+/*==================[ISR external functions definition]======================*/
 
-/** @brief main function
- * @return main function should never return
- */
-int main(void);
+/*==================[external functions definition]==========================*/
 
+bool_t cyclesCounterInit( uint32_t clockSpeed );
 
+uint32_t cyclesCounterRead( void );
 
+void cyclesCounterReset( void );
+
+float cyclesCounterToUs( uint32_t cycles );
+
+float cyclesCounterToMs( uint32_t cycles );
 
 /*==================[cplusplus]==============================================*/
 
@@ -76,6 +80,5 @@ int main(void);
 }
 #endif
 
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* #ifndef _SAPI_CYCLES_COUNTER_H_ */

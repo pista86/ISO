@@ -17,7 +17,7 @@ typedef void *(*task_type)(void *);
 typedef void *(*return_task_type)(void *);
 
 typedef enum {
-	READY, RUNNING, WAITING, SUSPENDED
+	TASK_READY, TASK_RUNNING, TASK_WAITING, TASK_SUSPENDED
 } pistaOS_task_status_t;
 
 typedef struct {

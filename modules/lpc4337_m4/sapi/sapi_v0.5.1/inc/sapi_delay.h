@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2015-2016, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,13 +31,14 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/* Date: 2015-09-23 */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef _SAPI_DELAY_H_
+#define _SAPI_DELAY_H_
 
 /*==================[inclusions]=============================================*/
+
+#include "sapi_datatypes.h"
 
 /*==================[cplusplus]==============================================*/
 
@@ -47,28 +48,36 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
+/* Define the number of cycles for 1ms */
+#define INACCURATE_TO_MS       20400
+#define INACCURATE_TO_US_x10   204
 
-
-
-
-/** led number to toggle */
-#define LED 0
+#define delayConfig delayInit
 
 /*==================[typedef]================================================*/
+
+typedef struct{
+   tick_t startTime;
+   tick_t duration;
+   bool_t running;
+} delay_t;
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
-/** @brief main function
- * @return main function should never return
- */
-int main(void);
+/* ---- Inaccurate Delay ---- */
+void delayInaccurate( tick_t delay );
+void delayInaccurateUs(tick_t delay_us);
 
+/* ---- Blocking Delay ---- */
+void delay( tick_t delay );
+void delayUs(tick_t delay_us);
 
-
+/* ---- Non Blocking Delay ---- */
+void delayInit( delay_t * delay, tick_t duration );
+bool_t delayRead( delay_t * delay );
+void delayWrite( delay_t * delay, tick_t duration );
 
 /*==================[cplusplus]==============================================*/
 
@@ -76,6 +85,5 @@ int main(void);
 }
 #endif
 
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* #ifndef _SAPI_DELAY_H_ */

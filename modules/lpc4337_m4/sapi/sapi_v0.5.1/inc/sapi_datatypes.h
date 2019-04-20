@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2015-2016, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,13 +31,16 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/* Date: 2015-09-23 */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef _SAPI_DATATYPES_H_
+#define _SAPI_DATATYPES_H_
 
 /*==================[inclusions]=============================================*/
+
+#include "stdint.h"
+#include "chip.h"
+#include "board.h"
 
 /*==================[cplusplus]==============================================*/
 
@@ -46,29 +49,70 @@ extern "C" {
 #endif
 
 /*==================[macros]=================================================*/
+/* Functional states */
+#ifndef ON
+#define ON     1
+#endif
+#ifndef OFF
+#define OFF    0
+#endif
 
-/** delay in milliseconds */
-#define DELAY_MS 500
+/* Electrical states */
+#ifndef HIGH
+#define HIGH   1
+#endif
+#ifndef LOW
+#define LOW    0
+#endif
 
+/* Logical states */
 
-
-
-/** led number to toggle */
-#define LED 0
+#ifndef FALSE
+#define FALSE  0
+#endif
+#ifndef TRUE
+#define TRUE   (!FALSE)
+#endif
 
 /*==================[typedef]================================================*/
+
+/* Define Boolean Data Type */
+typedef uint8_t bool_t;
+
+/* Define real Data Types (floating point) */
+typedef float  real32_t;
+//typedef double real64_t; // In LPC4337 float = double (Floating Point single precision, 32 bits)
+
+/* Define Tick Data Type */
+typedef uint64_t tick_t;
+
+/*
+ * Function Pointer definition
+ * --------------------------------------
+ * param:  void * - For passing arguments
+ * return: bool_t - For Error Reports
+ */
+typedef bool_t (*sAPI_FuncPtr_t)(void *);
+
+/*
+ * Function Pointer definition
+ * --------------------------------------
+ * param:  void
+ * return: void
+ */
+typedef void (*callBackFuncPtr_t)(void *);
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
-/** @brief main function
- * @return main function should never return
+/*
+ * Null Function Pointer definition
+ * --------------------------------------
+ * param:  void * - Not used
+ * return: bool_t - Return always true
  */
-int main(void);
-
-
-
+bool_t sAPI_NullFuncPtr(void *);
 
 /*==================[cplusplus]==============================================*/
 
@@ -76,6 +120,5 @@ int main(void);
 }
 #endif
 
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* #ifndef _SAPI_DATATYPES_H_ */

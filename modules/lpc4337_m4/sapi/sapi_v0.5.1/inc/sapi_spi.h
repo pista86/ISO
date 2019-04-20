@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part of CIAA Firmware.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,13 +31,15 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/* Date: 2016-05-02 */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef _SAPI_SPI_H_
+#define _SAPI_SPI_H_
 
 /*==================[inclusions]=============================================*/
+
+#include "sapi_datatypes.h"
+#include "sapi_peripheral_map.h"
 
 /*==================[cplusplus]==============================================*/
 
@@ -47,28 +49,21 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
-
-
-
-
-/** led number to toggle */
-#define LED 0
+#define spiConfig spiInit
 
 /*==================[typedef]================================================*/
 
 /*==================[external data declaration]==============================*/
 
-/*==================[external functions declaration]=========================*/
+/*==================[ISR external functions definition]======================*/
 
-/** @brief main function
- * @return main function should never return
- */
-int main(void);
+/*==================[external functions definition]==========================*/
 
+bool_t spiInit( spiMap_t spi );
 
+bool_t spiRead( spiMap_t spi, uint8_t* buffer, uint32_t bufferSize );
 
+bool_t spiWrite( spiMap_t spi, uint8_t* buffer, uint32_t bufferSize);
 
 /*==================[cplusplus]==============================================*/
 
@@ -76,6 +71,5 @@ int main(void);
 }
 #endif
 
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* #ifndef _SAPI_SPI_H_ */

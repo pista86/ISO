@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2015-2016, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,13 +31,15 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/* Date: 2015-09-23 */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef _SAPI_GPIO_H_
+#define _SAPI_GPIO_H_
 
 /*==================[inclusions]=============================================*/
+
+#include "sapi_datatypes.h"
+#include "sapi_peripheral_map.h"
 
 /*==================[cplusplus]==============================================*/
 
@@ -47,28 +49,50 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
-
-
-
-
-/** led number to toggle */
-#define LED 0
+#define gpioConfig gpioInit
 
 /*==================[typedef]================================================*/
+
+/* Pin modes */
+/*
+ *  INPUT  =  0    (No PULLUP or PULLDOWN)
+ *  OUTPUT =  1
+ *  INPUT_PULLUP
+ *  INPUT_PULLDOWN
+ *  INPUT_REPEATER (PULLUP and PULLDOWN)
+ *  INITIALIZE
+ */
+typedef enum {
+   GPIO_INPUT, GPIO_OUTPUT,
+   GPIO_INPUT_PULLUP, GPIO_INPUT_PULLDOWN,
+   GPIO_INPUT_PULLUP_PULLDOWN,
+   GPIO_ENABLE
+} gpioInit_t;
+
+
+/* ----- Begin Pin Init Structs NXP LPC4337 ----- */
+
+typedef struct {
+   int8_t port;
+   int8_t pin;
+} gpioInitLpc4337_t;
+
+typedef struct {
+   pinInitLpc4337_t pinName;
+   int8_t func;
+   gpioInitLpc4337_t gpio;
+} pinInitGpioLpc4337_t;
+
+/* ------ End Pin Init Structs NXP LPC4337 ------ */
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
-/** @brief main function
- * @return main function should never return
- */
-int main(void);
-
-
-
+bool_t gpioInit( gpioMap_t pin, gpioInit_t config );
+bool_t gpioRead( gpioMap_t pin );
+bool_t gpioWrite( gpioMap_t pin, bool_t value );
+bool_t gpioToggle( gpioMap_t pin );
 
 /*==================[cplusplus]==============================================*/
 
@@ -76,6 +100,5 @@ int main(void);
 }
 #endif
 
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* #ifndef _SAPI_GPIO_H_ */

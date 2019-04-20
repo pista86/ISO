@@ -1,7 +1,8 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2017, Sebastian Pablo Bedin <sebabedin@gmail.com>
+ * Copyright 2018, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,51 +32,16 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/* Date: 2017-11-13 */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef _DHT11_H_
+#define _DHT11_H_
 
-/*==================[inclusions]=============================================*/
+#include "sapi_datatypes.h"
 
-/*==================[cplusplus]==============================================*/
+#define dht11Config dht11Init
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+void dht11Init( int32_t gpio );
+bool_t dht11Read( float *phum, float *ptemp );
 
-/*==================[macros]=================================================*/
-
-/** delay in milliseconds */
-#define DELAY_MS 500
-
-
-
-
-/** led number to toggle */
-#define LED 0
-
-/*==================[typedef]================================================*/
-
-/*==================[external data declaration]==============================*/
-
-/*==================[external functions declaration]=========================*/
-
-/** @brief main function
- * @return main function should never return
- */
-int main(void);
-
-
-
-
-/*==================[cplusplus]==============================================*/
-
-#ifdef __cplusplus
-}
-#endif
-
-/** @} doxygen end group definition */
-/*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* _DHT11_H_ */

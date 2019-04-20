@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,51 +31,61 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
-
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+/* Date: 2016-06-05 */
 
 /*==================[inclusions]=============================================*/
 
-/*==================[cplusplus]==============================================*/
+#include "sapi_datatypes.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+/*==================[macros and definitions]=================================*/
 
-/*==================[macros]=================================================*/
+/*==================[internal data declaration]==============================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
+/*==================[internal functions declaration]=========================*/
 
+/*==================[internal data definition]===============================*/
 
+/*==================[external data definition]===============================*/
 
+/*==================[internal functions definition]==========================*/
 
-/** led number to toggle */
-#define LED 0
+/*==================[external functions definition]==========================*/
 
-/*==================[typedef]================================================*/
-
-/*==================[external data declaration]==============================*/
-
-/*==================[external functions declaration]=========================*/
-
-/** @brief main function
- * @return main function should never return
+/*
+ * Null Function Pointer definition
+ * --------------------------------------
+ * param:  void * - Not used
+ * return: bool_t - Return always true
  */
-int main(void);
-
-
-
-
-/*==================[cplusplus]==============================================*/
-
-#ifdef __cplusplus
+bool_t sAPI_NullFuncPtr(void *ptr)
+{
+   return 1;
 }
-#endif
+
+/*==================[ISR external functions definition]======================*/
+
+/*
+// FUNCTION POINTER VECTOR EXAMPLE
+
+// Función para no tener NULL pointer
+   void dummy(void){
+   }
+
+// Definición de un tipo con typedef.
+   typedef void (*voidFunctionPointer_t)(void);
+
+// Definición de una variable con el tipo de typedef, incializo en dummy (NULL)
+   voidFunctionPointer_t voidFunctionPointer[2] = {dummy, dummy};
+
+// Ejecuto la funcion
+   (* voidFunctionPointer[0] )();
+   (* voidFunctionPointer[1] )();
+
+// Asigno una funcion a cada posición del vector
+   voidFunctionPointer[0] = ledB;
+   voidFunctionPointer[1] = led1;
+*/
+
 
 /** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */

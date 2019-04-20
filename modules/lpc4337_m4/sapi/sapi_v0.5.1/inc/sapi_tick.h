@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2015-2018, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,13 +31,16 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/* Date: 2015-09-23 */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef _SAPI_TICK_H_
+#define _SAPI_TICK_H_
 
 /*==================[inclusions]=============================================*/
+
+#include "sapi_datatypes.h"
+
+#define TICK_OVER_RTOS
 
 /*==================[cplusplus]==============================================*/
 
@@ -47,28 +50,31 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
-
-
-
-
-/** led number to toggle */
-#define LED 0
+#define tickConfig tickInit
 
 /*==================[typedef]================================================*/
 
-/*==================[external data declaration]==============================*/
+/*==================[external functions definition]==========================*/
 
-/*==================[external functions declaration]=========================*/
+// Tick Initialization and rate configuration from 1 to 50 ms
+bool_t tickInit( tick_t tickRateMSvalue );
 
-/** @brief main function
- * @return main function should never return
- */
-int main(void);
+// Read Tick Counter
+tick_t tickRead( void );
 
+// Write Tick Counter
+void tickWrite( tick_t ticks );
 
+// Tick interrupt callback
+bool_t tickCallbackSet( callBackFuncPtr_t tickCallback, void* tickCallbackParams );
 
+// Enable or disable the peripheral energy and clock
+void tickPowerSet( bool_t power );
+
+/*==================[ISR external functions declaration]======================*/
+
+// SysTick Timer ISR Handler
+void SysTick_Handler(void);
 
 /*==================[cplusplus]==============================================*/
 
@@ -76,6 +82,5 @@ int main(void);
 }
 #endif
 
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* #ifndef _SAPI_TICK_H_ */

@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,51 +31,39 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
-
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef _SAPI_KEYPAD_H_
+#define _SAPI_KEYPAD_H_
 
 /*==================[inclusions]=============================================*/
 
-/*==================[cplusplus]==============================================*/
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "sapi_datatypes.h"
+#include "sapi_peripheral_map.h"
 
 /*==================[macros]=================================================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
-
-
-
-
-/** led number to toggle */
-#define LED 0
+#define keypadConfig keypadInit
 
 /*==================[typedef]================================================*/
+
+typedef struct {
+   gpioMap_t* keypadRowPins;
+   uint8_t keypadRowSize;
+   gpioMap_t* keypadColPins;
+   uint8_t keypadColSize;
+} keypad_t;
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
-/** @brief main function
- * @return main function should never return
- */
-int main(void);
+/* Configure keypad pins */
+bool_t keypadInit( keypad_t* keypad,
+                   gpioMap_t* keypadRowPins, uint8_t keypadRowSize,
+                   gpioMap_t* keypadColPins, uint8_t keypadColSize );
 
+/* Return TRUE if any key is pressed or FALSE (0) in other cases.
+ * If exist key pressed write pressed key on key variable */
+bool_t keypadRead( keypad_t* keypad, uint16_t* key );
 
-
-
-/*==================[cplusplus]==============================================*/
-
-#ifdef __cplusplus
-}
-#endif
-
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* #ifndef _SAPI_KEYPAD_H_ */

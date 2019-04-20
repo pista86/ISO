@@ -1,10 +1,11 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2016, Ian Olivieri
+ * Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * modification, aire permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
@@ -31,13 +32,15 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/* Date: 2016-02-10 */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef PWM_DRIVER_H_
+#define PWM_DRIVER_H_
 
 /*==================[inclusions]=============================================*/
+
+#include "sapi_datatypes.h"
+#include "sapi_peripheral_map.h"
 
 /*==================[cplusplus]==============================================*/
 
@@ -45,30 +48,51 @@
 extern "C" {
 #endif
 
-/*==================[macros]=================================================*/
+/*==================[macros and definitions]=================================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
-
-
-
-
-/** led number to toggle */
-#define LED 0
+#define pwmConfig pwmInit
 
 /*==================[typedef]================================================*/
+
+typedef enum{
+   PWM_ENABLE, PWM_DISABLE,
+   PWM_ENABLE_OUTPUT, PWM_DISABLE_OUTPUT
+} pwmInit_t;
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
-/** @brief main function
- * @return main function should never return
+/*
+ * @Brief: Initializes the pwm peripheral.
+ * @param  uint8_t pwmNumber
+ * @param  uint8_t config
+ * @return bool_t true (1) if config it is ok
  */
-int main(void);
+bool_t pwmInit( pwmMap_t pwmNumber, pwmInit_t config);
 
+/*
+ * @brief:   Tells if the pwm is currently active, and its position
+ * @param:   pwmNumber:   ID of the pwm, from 0 to 10
+ * @return:   position (1 ~ PWM_TOTALNUMBER), 0 if the element was not found.
+ */
+uint8_t pwmIsAttached( pwmMap_t pwmNumber );
 
+/*
+ * @brief:   read the value of the pwm in the pin
+ * @param:   pwmNumber:   ID of the pwm, from 0 to 10
+ * @return:   value of the pwm in the pin (0 ~ 255).
+ *   If an error ocurred, return = EMPTY_POSITION = 255
+ */
+uint8_t pwmRead( pwmMap_t pwmNumber );
 
+/*
+ * @brief:   change the value of the pwm at the selected pin
+ * @param:   pwmNumber:   ID of the pwm, from 0 to 10
+ * @param:   value:   8bit value, from 0 to 255
+ * @return:   True if the value was successfully changed, False if not.
+ */
+bool_t pwmWrite( pwmMap_t pwmNumber, uint8_t percent );
 
 /*==================[cplusplus]==============================================*/
 
@@ -76,6 +100,5 @@ int main(void);
 }
 #endif
 
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* PWM_DRIVER_H_ */

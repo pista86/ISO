@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2017, Agustin Bassi.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,16 +28,18 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/*
+ * Date: 2017-11-01
+ */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef _SAPI_RGB_H_
+#define _SAPI_RGB_H_
 
 /*==================[inclusions]=============================================*/
+
+#include "sapi.h"
 
 /*==================[cplusplus]==============================================*/
 
@@ -47,28 +49,59 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
+#define MAX_AMOUNT_OF_RGB_LEDS 9
 
-
-
-
-/** led number to toggle */
-#define LED 0
+#define rgbConfig rgbInit
 
 /*==================[typedef]================================================*/
+
+// Colores predefinidos
+typedef enum Color {
+	BLACK,
+	WHITE,
+	VIOLET,
+	RED,
+	CYAN,
+	BLUE,
+	YELLOW,
+	GREEN
+} Color_t;
+
+typedef enum LedRgbMap {
+	RGB_1,
+	RGB_2,
+	RGB_3,
+	RGB_4,
+	RGB_5,
+	RGB_6,
+	RGB_7,
+	RGB_8,
+	RGB_9,
+} LedRgbMap_t;
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
-/** @brief main function
- * @return main function should never return
- */
-int main(void);
+/** Configura los pines que se van a manejar como salidas PWM por soft. */
+bool_t rgbInit( LedRgbMap_t rgbLed, uint8_t pinRed, uint8_t pinGreen, uint8_t pinBlue );
 
+/** Manda por los pines PWM uno de los posibles colores definidos en color_t*/
+void rgbWriteColor( LedRgbMap_t rgbLed, Color_t color );
 
+/** Manda una configuracion individual de cada canal. */
+void rgbWriteRaw( LedRgbMap_t rgbLed, int8_t dutyRed, int8_t dutyGreen, int8_t dutyBlue );
 
+/** Setea el brillo sin cambiar el color (multiplica por una constante). */
+void rgbWriteBright( LedRgbMap_t rgbLed, uint32_t bright );
+
+uint8_t rgbReadDutyRed( LedRgbMap_t rgbLed );
+
+uint8_t rgbReadDutyGreen( LedRgbMap_t rgbLed );
+
+uint8_t rgbReadDutyBlue( LedRgbMap_t rgbLed );
+
+void rgbToggleLed( LedRgbMap_t rgbLed );
 
 /*==================[cplusplus]==============================================*/
 
@@ -76,6 +109,5 @@ int main(void);
 }
 #endif
 
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* #ifndef _SAPI_RGB_H_ */

@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,13 +31,15 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/* Date: 2016-08-15 */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef SAPI_SCT_H_
+#define SAPI_SCT_H_
 
 /*==================[inclusions]=============================================*/
+
+#include "sapi_datatypes.h"
+#include "sapi_peripheral_map.h"
 
 /*==================[cplusplus]==============================================*/
 
@@ -45,16 +47,7 @@
 extern "C" {
 #endif
 
-/*==================[macros]=================================================*/
-
-/** delay in milliseconds */
-#define DELAY_MS 500
-
-
-
-
-/** led number to toggle */
-#define LED 0
+/*==================[macros and definitions]=================================*/
 
 /*==================[typedef]================================================*/
 
@@ -62,13 +55,12 @@ extern "C" {
 
 /*==================[external functions declaration]=========================*/
 
-/** @brief main function
- * @return main function should never return
+/*
+ * @Brief: Sleep mode, sleep until next interrupt occur.
+ * @param  nothing
+ * @return nothing
  */
-int main(void);
-
-
-
+void sleepUntilNextInterrupt( void );
 
 /*==================[cplusplus]==============================================*/
 
@@ -76,6 +68,5 @@ int main(void);
 }
 #endif
 
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* SAPI_SCT_H_ */

@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,51 +31,37 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
-
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+/* Date: 2016-08-15 */
 
 /*==================[inclusions]=============================================*/
 
-/*==================[cplusplus]==============================================*/
+#include "sapi_sleep.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+/*==================[macros and definitions]=================================*/
 
-/*==================[macros]=================================================*/
+/*==================[internal data declaration]==============================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
+/*==================[internal functions declaration]=========================*/
 
+/*==================[internal data definition]===============================*/
 
+/*==================[external data definition]===============================*/
 
+/*==================[internal functions definition]==========================*/
 
-/** led number to toggle */
-#define LED 0
+/*==================[external functions definition]==========================*/
 
-/*==================[typedef]================================================*/
-
-/*==================[external data declaration]==============================*/
-
-/*==================[external functions declaration]=========================*/
-
-/** @brief main function
- * @return main function should never return
+/*
+ * @Brief: Sleep mode, sleep until next interrupt occur.
+ * @param  nothing
+ * @return nothing
  */
-int main(void);
+void sleepUntilNextInterrupt( void )
+{
 
+   /* Instert an assembly instruction wfi (wait for interrupt) */
+   __asm volatile( "wfi" );
 
-
-
-/*==================[cplusplus]==============================================*/
-
-#ifdef __cplusplus
 }
-#endif
 
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */

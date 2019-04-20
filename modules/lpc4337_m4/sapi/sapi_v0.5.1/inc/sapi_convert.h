@@ -1,7 +1,7 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2017, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,54 +28,52 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+/* Date: 2017-04-17 */
 
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+#ifndef _SAPI_CONVERT_H_
+#define _SAPI_CONVERT_H_
+
+/*
+
+API
+---
+
+// C++ version 0.4 char* style "itoa":
+bool_t int64ToString( int64_t value, char* result, uint8_t base );
+bool_t uint64ToString( uint64_t value, char* result, uint8_t base );
+
+char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
+*/
 
 /*==================[inclusions]=============================================*/
 
-/*==================[cplusplus]==============================================*/
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "sapi_datatypes.h"
 
 /*==================[macros]=================================================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
-
-
-
-
-/** led number to toggle */
-#define LED 0
-
 /*==================[typedef]================================================*/
+
+typedef enum {
+   BIN_FORMAT = 2,
+   DEC_FORMAT = 10,
+   HEX_FORMAT = 16
+} numberFormat_t;
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
-/** @brief main function
- * @return main function should never return
- */
-int main(void);
+// C++ version 0.4 char* style "itoa":
+bool_t int64ToString( int64_t value, char* result, uint8_t base );
+bool_t uint64ToString( uint64_t value, char* result, uint8_t base );
 
+char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
 
+char* intToString( int64_t value );
 
+/*==================[examples]===============================================*/
 
-/*==================[cplusplus]==============================================*/
-
-#ifdef __cplusplus
-}
-#endif
-
-/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+#endif /* #ifndef _SAPI_CONVERT_H_ */

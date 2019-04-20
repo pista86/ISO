@@ -1,7 +1,8 @@
-/* Copyright 2016, Pablo Ridolfi
+/* Copyright 2016, Ian Olivieri
+ * Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of Workspace.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,51 +32,71 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
-
-/** \addtogroup blink Bare-metal blink example
- ** @{ */
+/* Date: 2016-02-20 */
 
 /*==================[inclusions]=============================================*/
 
-/*==================[cplusplus]==============================================*/
+#include "sapi_dac.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+/*==================[macros and definitions]=================================*/
 
-/*==================[macros]=================================================*/
+/*==================[internal data declaration]==============================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
+/*==================[internal functions declaration]=========================*/
 
+/*==================[internal data definition]===============================*/
 
+/*==================[external data definition]===============================*/
 
+/*==================[internal functions definition]==========================*/
 
-/** led number to toggle */
-#define LED 0
+/*==================[external functions definition]==========================*/
 
-/*==================[typedef]================================================*/
+/*
+ * @brief:  enable/disable the ADC and DAC peripheral
+ * @param:  DAC_ENABLE, DAC_DISABLE
+ * @return: none
+*/
+void dacInit( dacInit_t config )
+{
 
-/*==================[external data declaration]==============================*/
+   switch(config) {
 
-/*==================[external functions declaration]=========================*/
+   case DAC_ENABLE:
+      /* Initialize the DAC peripheral */
+      Chip_DAC_Init(LPC_DAC);
 
-/** @brief main function
- * @return main function should never return
- */
-int main(void);
+      /* Enables the DMA operation and controls DMA timer */
+      Chip_DAC_ConfigDAConverterControl(LPC_DAC, DAC_DMA_ENA);
+      /* DCAR DMA access */
+      /* Update value to DAC buffer*/
+      Chip_DAC_UpdateValue(LPC_DAC, 0);
+      break;
 
+   case DAC_DISABLE:
+      /* Disable DAC peripheral */
+      Chip_DAC_DeInit( LPC_DAC );
+      break;
+   }
 
-
-
-/*==================[cplusplus]==============================================*/
-
-#ifdef __cplusplus
 }
-#endif
 
-/** @} doxygen end group definition */
+
+/*
+ * @brief   Write a value in the DAC.
+ * @param   analogOutput: AO0 ... AOn
+ * @param   value: analog value to be writen in the DAC, from 0 to 1023
+ * @return  none
+ */
+void dacWrite( dacMap_t analogOutput, uint16_t value )
+{
+
+   if( analogOutput == AO ) {
+      if( value > 1023 ) {
+         value = 1023;
+      }
+      Chip_DAC_UpdateValue( LPC_DAC, value );
+   }
+}
+
 /*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
