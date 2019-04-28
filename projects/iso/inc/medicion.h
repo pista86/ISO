@@ -6,18 +6,22 @@
 
 
 typedef enum {
-	MEASURE_NONE,
-	MEASURE_RISING,
-	MEASURE_FALLING,
-} measure_edge_t;
+	MEASURE_WAITING_1,
+	MEASURE_WAITING_2,
+	MEASURE_WAITING_3,
+	MEASURE_WAITING_4
+} measure_status_t;
 
 typedef struct{
-	measure_edge_t	measute_edge;
-	int8_t firstTec;
-	int8_t secondTec;
-	uint32_t firstTecTick;
-	uint32_t secondTecTick;
-} measure_tec_t;
+	int8_t eventTec_1;
+	int8_t eventTec_2;
+	int8_t eventTec_3;
+	int8_t eventTec_4;
+	uint32_t eventTick_1;
+	uint32_t eventTick_2;
+	uint32_t eventTick_3;
+	uint32_t eventTick_4;
+} measure_data_t;
 
 
 void medicionInit(void);

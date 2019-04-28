@@ -17,14 +17,10 @@ extern "C"
 
 
 
-
 #define PISTAOS_MAX_TASK	10
 
 
 #define IDLE_STACK_SIZE_B 512
-
-
-
 
 
 

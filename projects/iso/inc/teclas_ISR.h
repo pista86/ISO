@@ -17,7 +17,7 @@ typedef void (*tecla_event_callback_t)(uint8_t tecla, tecla_event_t evento);
 
 void GPIO4_IRQHandler(void);
 void GPIO5_IRQHandler(void);
-void GPIO6_IRQHandler(void);
-void GPIO7_IRQHandler(void);
+//void GPIO6_IRQHandler(void);
+//void GPIO7_IRQHandler(void);
 
 void teclas_irq_enable(tecla_event_callback_t teclaEventCallback);

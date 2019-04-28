@@ -1,4 +1,3 @@
-// sAPI header
 #include "sapi.h"
 #include "pistaOS.h"
 #include "teclas_ISR.h"
@@ -16,8 +15,8 @@ void teclas_irq_enable(tecla_event_callback_t teclaEventCallback) {
 
 	tec_irq_enable(4, 0, 4, BOTH_EDGE); // TEC1
 	tec_irq_enable(5, 0, 8, BOTH_EDGE); // TEC2
-	tec_irq_enable(6, 0, 9, BOTH_EDGE); // TEC3
-	tec_irq_enable(7, 1, 9, BOTH_EDGE); // TEC4
+//	tec_irq_enable(6, 0, 9, BOTH_EDGE); // TEC3
+//	tec_irq_enable(7, 1, 9, BOTH_EDGE); // TEC4
 }
 
 static void tec_irq_enable(uint8_t irqChannel, uint8_t port, uint8_t pin,
@@ -81,6 +80,7 @@ void GPIO5_IRQHandler(void) {
 	tec_irq_process(5, 2, get_sysTickCount());
 }
 
+/*
 void GPIO6_IRQHandler(void)
 {
 	tec_irq_process(6, 3, get_sysTickCount());
@@ -90,3 +90,4 @@ void GPIO7_IRQHandler(void)
 {
 	tec_irq_process(7, 4, get_sysTickCount());
 }
+*/

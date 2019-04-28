@@ -47,14 +47,7 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-/** delay in milliseconds */
-#define DELAY_MS 500
 
-
-
-
-/** led number to toggle */
-#define LED 0
 
 /*==================[typedef]================================================*/
 
@@ -66,8 +59,6 @@ extern "C" {
  * @return main function should never return
  */
 int main(void);
-
-
 
 
 /*==================[cplusplus]==============================================*/

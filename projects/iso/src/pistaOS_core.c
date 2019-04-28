@@ -42,14 +42,17 @@ void SysTick_Handler(void) {
 }
 
 void taskDelay(uint32_t delayTicks) {
-	// Configuro delays y pongo tarea en modo WAITING
-	taskList[get_running_task_index()].delayTicks = delayTicks;
-	taskList[get_running_task_index()].status = TASK_WAITING;
 
-	// Llamo a PendSV
-	schedule();
+	if (delayTicks > 0) {
+
+		// Configuro delays y pongo tarea en modo WAITING
+		taskList[get_running_task_index()].delayTicks = delayTicks;
+		taskList[get_running_task_index()].status = TASK_WAITING;
+
+		// Llamo a PendSV
+		schedule();
+	}
 }
-
 
 static void initIdleTask(void) {
 

@@ -16,13 +16,14 @@ extern "C"
 
 typedef struct {
 	uint32_t id;
+	uint8_t taken;
 } pistaOS_event_t;
 
 
 
 pistaOS_event_t event_init(void);
-void event_wait(pistaOS_event_t event_id);
-void event_set(pistaOS_event_t event_id);
+void event_wait(pistaOS_event_t* event_id);
+void event_set(pistaOS_event_t* event_id);
 
 /*==================[cplusplus]==============================================*/
 

@@ -1,12 +1,11 @@
 #include "task_debounce.h"
-
+#include "medicion.h"
 
 static tec_t teclas[CANT_TECLAS];
 
 static void task_init(void);
 static void procesamiento_teclas(uint8_t tecla, tecla_event_t evento);
 static void process_debounce(void);
-static uint8_t bouncing(void);
 static void tec_status_init(void);
 static bool_t read_tecla(uint8_t index);
 
@@ -18,8 +17,6 @@ static void task_init(void) {
 }
 
 void * task_debounce(void * arg) {
-
-
 
 	task_init();
 
@@ -41,14 +38,11 @@ static void process_debounce(void) {
 	for (i = 0; i < CANT_TECLAS; i++) {
 		if (teclas[i].status == TEC_FALLING) {
 			// si ya pasó el tiempo de debounce leo la tecla
-			if (((get_sysTickCount() - teclas[i].tickCount) / TICK_RATE_MS)
-					> DEBOUNCE_PERIOD_MS) {
+			if ((get_sysTickCount() - teclas[i].tickCount) > DEBOUNCE_PERIOD_MS) {
 				if (read_tecla(i) == FALSE) {
 					// sigue abajo no fue rebote, está down, tomo el tiempo actual como referencia
-					teclas[i].tickDown = get_sysTickCount();
 					teclas[i].status = TEC_DOWN;
-					//tec_down(teclas[i], i);
-					gpioToggle(LED1);
+					tec_down(teclas[i], i);
 				} else {
 					// subió, fue rebote, está up
 					teclas[i].status = TEC_UP;
@@ -57,14 +51,11 @@ static void process_debounce(void) {
 
 		} else if (teclas[i].status == TEC_RAISING) {
 			// si ya pasó el tiempo de debounce leo la tecla
-			if (((get_sysTickCount() - teclas[i].tickCount) / TICK_RATE_MS)
-					> DEBOUNCE_PERIOD_MS) {
+			if ((get_sysTickCount() - teclas[i].tickCount) > DEBOUNCE_PERIOD_MS) {
 				if (read_tecla(i) == TRUE) {
 					// sigue arriba no fue rebote, está up, tomo el tiempo actual como referencia
-					teclas[i].tickUp = get_sysTickCount();
 					teclas[i].status = TEC_UP;
-					//tec_up(teclas[i], i);
-					gpioToggle(LED2);
+					tec_up(teclas[i], i);
 				} else {
 					// bajó, fue rebote, está down
 					teclas[i].status = TEC_DOWN;
@@ -75,21 +66,6 @@ static void process_debounce(void) {
 
 	}
 
-}
-
-static uint8_t bouncing(void) {
-	uint8_t i;
-	uint8_t result = 0;
-
-	for (i = 0; i < CANT_TECLAS; i++) {
-		if (teclas[i].status == TEC_FALLING
-				|| teclas[i].status == TEC_RAISING) {
-			result = 1;
-			break;
-		}
-	}
-
-	return result;
 }
 
 static void tec_status_init(void) {
@@ -110,8 +86,6 @@ static bool_t read_tecla(uint8_t index) {
 
 void procesamiento_teclas(uint8_t tecla, tecla_event_t evento) {
 
-
-
 	switch (evento) {
 
 	case TECLA_UP:
@@ -124,7 +98,6 @@ void procesamiento_teclas(uint8_t tecla, tecla_event_t evento) {
 		teclas[tecla - 1].status = TEC_FALLING;
 
 		break;
-
 	}
 
 }
